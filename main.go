@@ -8,10 +8,10 @@ import "strings"
 func main() {
   client := &http.Client{}
   req, _ := http.NewRequest("GET", "http://192.168.0.131:80/ISAPI/Event/notification/alertStream",nil)
-  req.SetBasicAuth("admin","**********")
+  req.SetBasicAuth("admin","hikvision1")
   res, _ := client.Do(req)
 
-  if resp != nil {
+  if res != nil {
     reader := bufio.NewReader(res.Body)
 
     etype := ""
@@ -19,7 +19,7 @@ func main() {
     state := ""
 
     for {
-      line, _ := reader.ReadBytes("\n")
+      line, _ := reader.ReadBytes('\n')
       if string(line) == "" {
         break
       }
@@ -41,7 +41,7 @@ func main() {
       }        
 
       if strings.Index(string(line), "--boundary") > -1 {
-        if etype != "d" && etype != "" {
+        if etype != "videoloss" && etype != "" {
           fmt.Println("New event,", etype, datetime, state)
         }
       }
